@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+)wgs1sleb$y(jbazh_m$dnqqg^^bxeen)rp7o6y(&c-yg1#7k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'almacen.apps.AlmacenConfig',
 ]
 
 MIDDLEWARE = [
