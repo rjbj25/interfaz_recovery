@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta http-equiv="content-type" content="application/xhtml; charset=UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        var cantidades = [];
+        var cntMateriales = 0;
+        var arrayCobros = []
+        var arrayCnt = []
+
+        document.addEventListener('DOMContentLoaded', function(){
+            document.getElementById("addMaterial").addEventListener("click", addMaterial);
+            document.getElementById("restMaterial").addEventListener("click", restMaterial);
+         })
+
+         function addMaterial(){
+            var materiales = [];
+            {%for material in materiales%} 
+                materiales.push("{{material.nombre}}");
+            {%endfor%}
+            
+           if (cntMateriales < 20){
+            //Se declaran variables de elementos
+            var contenedor = document.getElementById("contenedor");
+            var divCobros = document.createElement("div");
+            var divCnt = document.createElement("div");
+            var select = document.createElement("SELECT");
+            var cant = document.createElement("input");
+            
+            //Se asignan identificadores de elementos
+            divCobros.id= "divCobros" + cntMateriales;
+            arrayCobros[cntMateriales]="divCobros" + cntMateriales;
+
+            
+            divCnt.id= "divCnt" + cntMateriales;
+            arrayCnt[cntMateriales]= "divCnt" + cntMateriales;
+            
+            //se definen atributos de elementos 
+            
+            cant.type = "number";
+            cant.placeholder ="Cantidad";
+            cant.setAttribute("disabled", "disabled");
+            cant.id="cant"+cntMateriales;
+            select.setAttribute("class","browser-default");
+            select.id = cntMateriales;
+            
+            
+
+            select.setAttribute("onChange","selectCobro(this.selectedIndex, this.id)");
+            divCobros.setAttribute("class","input-field col s6");
+            divCnt.setAttribute("class","input-field col s6");
+            
+            
+            divCobros.appendChild(select);
+            divCnt.appendChild(cant);
+            
+            //Se crea la primera opción del select y se añade
+            var option1 = document.createElement("option");
+            option1.innerHTML="Choose your option";
+            option1.setAttribute("disabled", true);
+            option1.setAttribute("selected", "selected");
+            select.appendChild(option1);
+            
+            //Se agregan los demás cobros al select
+            for (var i = 0; i < materiales.length; i++){
+               var option = document.createElement("option");
+               option.innerHTML=materiales[i];
+               select.appendChild(option);
+            }
+            
+            //Se añaden todos los elementos al contenedor.
+            contenedor.appendChild(divCobros);
+            contenedor.appendChild(divCnt);
+            cntMateriales = cntMateriales+1;
+           }else{
+             alert("Ya ingresó la cantidad máxima de materiales");
+           }
+         }
+
+         function restMaterial(){
+            var contenedor = document.getElementById("contenedor");
+            contenedor.removeChild(document.getElementById(arrayCnt[cntMateriales-1]))
+            contenedor.removeChild(document.getElementById(arrayCobros[cntMateriales-1]))
+            cntMateriales = cntMateriales -1;
+         }
+
+
+         function selectCobro(e,id){
+            if (id === "defselect"){
+                document.getElementById("cantDefault").disabled = false;
+            }else {
+                document.getElementById("cant"+id).disabled = false;
+            }
+         }
+
+         
+    </script>
+  </head>
+  <body onload="bodyOnload()">
+    <form class="form" method="post" id="formM" name="formM" class="col s12" action="{% url 'almacen:form_sol_mat_sended' %}">
+    {% csrf_token %}
+    <div id="cedulaLvl" class="form-row">
+         <div class="container">
+         <div class="row">
+         <div class="input-field col s6" >    
+            <label>Seleccione su nombre</label>
+         </div>
+         </div>
+          <div class="row" id="contN">
+            {%if error_message %}
+                <div class="col s12">
+                <div class="card-panel red lighten-2">
+                    <span class="white-text">{{ error_message }}</span>
+                </div>
+            </div>
+            {%endif%}
+           <div class="input-field col s6" >    
+             <select class="browser-default" id="nombretec" onchange="selectNombre(this.value)">
+               <option value="" disabled selected>Seleccione su nombre</option>
+               {% for tecnico in tecnicos %} 
+               <option value="{{ tecnico }}">{{ tecnico }}</option>
+               {% endfor %}
+             </select>
+           </div>
+          </div>
+         <div class="row">
+            <label>Selecciona el Material</label>
+         </div>
+          <div class="row" id="contenedor">
+           <div class="input-field col s6" >    
+             <select class="browser-default" id="defselect" onchange="selectCobro(this.value, this.id)">
+               <option value="" disabled selected>Seleccione un Material</option>
+               {% for material in materiales %} 
+               <option value="{{ material }}">{{ material }}</option>
+               {% endfor %}
+             </select>
+           </div>
+           <div class="input-field col s6" >    
+             <input id="cantDefault" name="cantD" placeholder="Cantidad" type="number" value="orden" disabled/>
+           </div>
+           
+          </div>
+          <div class="row">
+              <input type="submit" value="Ingresar Materiales" class="waves-effect waves-light btn">
+              <a value="setmaterial" id="addMaterial" class="waves-effect waves-light btn">+</a>
+              <a value="setmaterial" id="restMaterial" class="waves-effect waves-light btn">-</a>
+          </div>
+          <div class="row" id="cpreload">
+
+          </div> 
+         </div>
+    </div>
+   </form>
+  </body>
+</html>
+
+
