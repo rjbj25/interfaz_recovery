@@ -3,7 +3,7 @@ from .models import Recurso, Tecnico, SolMaterial, SolMaterialChoises
 
 class SolMaterialChoisesInline(admin.StackedInline):
     model = SolMaterialChoises
-    extra = 3
+    extra = 0
 
 class SolMaterialAdmin(admin.ModelAdmin):
     inlines = [SolMaterialChoisesInline]
