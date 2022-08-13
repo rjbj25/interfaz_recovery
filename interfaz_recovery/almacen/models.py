@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Recurso(models.Model):
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100)
     cod_seot = models.CharField(max_length=50)
     cod_forcebeat = models.CharField(max_length=50)
     cod_scm = models.CharField(max_length=50)
