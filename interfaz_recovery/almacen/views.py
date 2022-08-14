@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Recurso, Tecnico, SolMaterial
+from .models import Recurso, Tecnico
 import logging
 
 def index(request):
