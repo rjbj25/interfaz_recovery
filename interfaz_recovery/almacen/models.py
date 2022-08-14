@@ -25,21 +25,23 @@ class Tecnico(models.Model):
 
 class SolMaterial(models.Model):
     tecnico = models.ForeignKey(Tecnico, on_delete=models.CASCADE)
-    fecha_hora = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.tecnico.nombre + " - " + self.fecha_hora.strftime("%d/%m/%Y %H:%M")
+        return self.tecnico.nombre
         
     class Meta:
         verbose_name = "Solicitud de Material Por Tecnico"
         verbose_name_plural = "Solicitudes de Material Por Tecnico"
     
 class SolMaterialChoises(models.Model):
-    cod_material = models.ForeignKey(SolMaterial, on_delete=models.CASCADE)
-    materiales = models.ForeignKey(Recurso, on_delete=models.CASCADE)
+    tecnico = models.ForeignKey(SolMaterial, on_delete=models.CASCADE)
+    material = models.ForeignKey(Recurso, on_delete=models.CASCADE, verbose_name="Material", related_name="material")
+    mat_name = property(lambda self: self.material.nombre)
     cantidad = models.IntegerField()
+    fecha_hora = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         '''Retorna el nombre del material, la cantidad y el técnico que solicitó'''
-        return self.materiales.cod_seot + " - " + self.materiales.nombre + " - " + str(self.cantidad) + " - " + self.cod_material.tecnico.nombre
+        return self.material.cod_seot + " - " + self.material.nombre + " - " + str(self.cantidad) + " - " + self.tecnico.tecnico.nombre
     class Meta:
         verbose_name = "Solicitud de Material"
         verbose_name_plural = "Solicitudes de Material"

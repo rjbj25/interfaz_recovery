@@ -1,5 +1,7 @@
 from django.contrib import admin
 from .models import Recurso, Tecnico, SolMaterial, SolMaterialChoises
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources
 
 class SolMaterialChoisesInline(admin.StackedInline):
     model = SolMaterialChoises
@@ -7,16 +9,23 @@ class SolMaterialChoisesInline(admin.StackedInline):
 
 class SolMaterialAdmin(admin.ModelAdmin):
     # Se muestran las solicitudes de material con sus choises
-
     inlines = [SolMaterialChoisesInline]
-    list_display = ('tecnico', 'fecha_hora')
-    list_filter = ('tecnico', 'fecha_hora')
-    search_fields = ('tecnico', 'fecha_hora')
+    list_display = ('pk', 'tecnico')
+    list_filter = ('tecnico',)
+    search_fields = ('tecnico',)
 
     
-class SolMaterialChoisesAdmin(admin.ModelAdmin):
-    list_display = ('cod_material', 'materiales', 'cantidad')
-    list_filter = ('cod_material', 'materiales', 'cantidad')
+class SolMaterialChoisesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('tecnico', 'material', 'cantidad', 'fecha_hora')
+    list_filter = ('tecnico', 'material', 'cantidad', 'fecha_hora')
+
+
+class SolMaterialChoisesResource(resources.ModelResource):
+    class Meta:
+        model = SolMaterialChoises
+        fields = ('tecnico__tecnico__nombre', 'mat_name', 'cantidad', 'fecha_hora')
+        export_order = ('tecnico', 'mat_name', 'cantidad', 'fecha_hora')
+        exclude = ('id',)
 
 # Register your models here.
 admin.site.register(Recurso)
