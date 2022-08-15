@@ -38,10 +38,6 @@ class SolMaterialChoises(models.Model):
     cantidad = models.IntegerField()
     fecha_hora = models.DateTimeField(auto_now_add=True)
 
-    def get_tecnico_nombre(self):
-        '''Retorna el nombre del tecnico que solicitó'''
-        return self.tecnico.tecnico.nombre
-
     def __str__(self):
         '''Retorna el nombre del material, la cantidad y el técnico que solicitó'''
         return self.material.cod_seot + " - " + self.material.nombre + " - " + str(self.cantidad) + " - " + self.tecnico.tecnico.nombre
