@@ -33,3 +33,6 @@ admin.site.register(Recurso)
 admin.site.register(Tecnico)
 admin.site.register(SolMaterial, SolMaterialAdmin)
 admin.site.register(SolMaterialChoises, SolMaterialChoisesAdmin)
+admin.site.site_header = "Interfaz Recovery"
+admin.site.site_title = "Interfaz Recovery"
+admin.site.index_title = "Interfaz Recovery"
