@@ -18,8 +18,8 @@ class SolMaterialAdmin(admin.ModelAdmin):
 class SolMaterialChoisesResource(resources.ModelResource):
     class Meta:
         model = SolMaterialChoises
-        fields = ('tecnico__tecnico__nombre', 'material__nombre', 'material__cod_seot', 'cantidad', 'fecha_hora')
-        export_order = ('tecnico__tecnico__nombre', 'material__nombre', 'material__cod_seot', 'cantidad', 'fecha_hora')
+        fields = ('tecnico__tecnico__cedula', 'tecnico__tecnico__nombre', 'material__nombre', 'material__cod_seot', 'cantidad', 'fecha_hora')
+        export_order = ('tecnico__tecnico__cedula', 'tecnico__tecnico__nombre', 'material__nombre', 'material__cod_seot', 'cantidad', 'fecha_hora')
 
 
 class SolMaterialChoisesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
