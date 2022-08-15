@@ -35,7 +35,7 @@ class SolMaterial(models.Model):
 class SolMaterialChoises(models.Model):
     tecnico = models.ForeignKey(SolMaterial, on_delete=models.CASCADE)
     material = models.ForeignKey(Recurso, on_delete=models.CASCADE)
-    cantidad = models.IntegerField()
+    cantidad = models.PositiveIntegerField(default=1)
     fecha_hora = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
